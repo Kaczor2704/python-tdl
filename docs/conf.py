@@ -55,8 +55,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'libtcod-cffi/tdl'
-copyright = u'2017, Kyle Stewart'
+project = u'python-tcod/tdl'
+copyright = u'2009-2018, Kyle Stewart'
 author = u'Kyle Stewart'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -66,7 +66,7 @@ author = u'Kyle Stewart'
 # The full version, including alpha/beta/rc tags.
 from subprocess import check_output
 release = check_output(['git', 'describe', '--abbrev=0'],
-                       universal_newlines=True).strip()[1:]
+                       universal_newlines=True).strip()
 print('release version: %r' % release)
 # The short X.Y version.
 import re

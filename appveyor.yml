@@ -7,6 +7,10 @@ environment:
     secure: xprpiCGL823NKrs/K2Cps1UVBEmpezXReLxcfLyU1M43ZBBOK91xvjdIJamYKi8D
   DEPLOY_ONLY: false
   matrix:
+  - WEB_PYTHON: https://www.python.org/ftp/python/3.7.0/python-3.7.0-amd64-webinstall.exe
+    platform: x64
+  - WEB_PYTHON: https://www.python.org/ftp/python/3.7.0/python-3.7.0-webinstall.exe
+    platform: Any CPU
   - PYTHON: C:\Python34-x64\python.exe
     platform: x64
   - PYTHON: C:\Python34\python.exe
@@ -38,11 +42,14 @@ environment:
   - PYPY: pypy2-v5.10.0-win32
     platform: Any CPU
     DEPLOY_ONLY: true
+  - PYPY: pypy2-v6.0.0-win32
+    platform: Any CPU
+    DEPLOY_ONLY: true
 
 matrix:
   allow_failures:
     - DEPLOY_ONLY: true
-clone_depth: 20
+clone_depth: 50
 
 cache:
   - '%localappdata%\pip\cache -> setup.py'
@@ -56,9 +63,8 @@ install:
 - cmd: "%ACTIVATE_VENV%"
 - cmd: "python --version"
 - cmd: "set PATH=%PATH%;C:\\MinGW\\bin"
-- cmd: "pip install --upgrade pip setuptools"
+- cmd: "pip install --upgrade setuptools"
 - cmd: "if defined PYPY pip install git+https://bitbucket.org/pypy/numpy.git"
-- 'pip install -e hg+https://bitbucket.org/HexDecimal/wheel@abi3-windows-fix#egg=wheel'
 - cmd: "pip install --requirement requirements.txt"
 - cmd: "python setup.py build sdist develop bdist_wheel"
 build: off
@@ -70,7 +76,7 @@ test_script:
 on_success:
 - pip install codacy-coverage python-coveralls
 - coverage xml
-- python-codacy-coverage -r coverage.xml
+- if defined CODACY_PROJECT_TOKEN python-codacy-coverage -r coverage.xml
 
 deploy_script:
 - "if defined APPVEYOR_REPO_TAG_NAME pip install twine"

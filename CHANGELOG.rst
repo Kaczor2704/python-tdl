@@ -7,6 +7,77 @@ here.
 This project adheres to `Semantic Versioning <https://semver.org/>`_ since
 v2.0.0
 
+5.0.1 - 2018-07-08
+------------------
+Fixed
+ - tdl.event no longer crashes with StopIteration on Python 3.7
+
+5.0.0 - 2018-07-05
+------------------
+Changed
+ - tcod.path: all classes now use `shape` instead of `width` and `height`.
+ - tcod.path now respects NumPy array shape, instead of assuming that arrays
+   need to be transposed from C memory order.  From now on `x` and `y` mean
+   1st and 2nd axis.  This doesn't affect non-NumPy code.
+ - tcod.path now has full support of non-contiguous memory.
+
+4.6.1 - 2018-06-30
+------------------
+Added
+ - New function `tcod.line_where` for indexing NumPy arrays using a Bresenham
+   line.
+Deprecated
+ - Python 2.7 support will be dropped in the near future.
+
+4.5.2 - 2018-06-29
+------------------
+Added
+ - New wheels for Python3.7 on Windows.
+Fixed
+ - Arrays from `tcod.heightmap_new` are now properly zeroed out.
+
+4.5.1 - 2018-06-23
+------------------
+Deprecated
+ - Deprecated all libtcodpy map functions.
+Fixed
+ - `tcod.map_copy` could break the `tcod.map.Map` class.
+ - `tcod.map_clear` `transparent` and `walkable` parameters were reversed.
+ - When multiple SDL2 headers were installed, the wrong ones would be used when
+   the library is built.
+ - Fails to build via pip unless Numpy is installed first.
+
+4.5.0 - 2018-06-12
+------------------
+Changed
+ - Updated libtcod to v1.7.0
+ - Updated SDL to v2.0.8
+ - Error messages when failing to create an SDL window should be a less vague.
+ - You no longer need to initialize libtcod before you can print to an
+   off-screen console.
+Fixed
+ - Avoid crashes if the root console has a character code higher than expected.
+Removed
+ - No more debug output when loading fonts.
+
+4.4.0 - 2018-05-02
+------------------
+Added
+ - Added the libtcodpy module as an alias for tcod.  Actual use of it is
+   deprecated, it exists primarily for backward compatibility.
+ - Adding missing libtcodpy functions `console_has_mouse_focus` and
+   `console_is_active`.
+Changed
+ - Updated libtcod to v1.6.6
+
+4.3.2 - 2018-03-18
+------------------
+Deprecated
+ - Deprecated the use of falsy console parameters with libtcodpy functions.
+Fixed
+ - Fixed libtcodpy image functions not supporting falsy console parameters.
+ - Fixed tdl `Window.get_char` method. (Kaczor2704)
+
 4.3.1 - 2018-03-07
 ------------------
 Fixed

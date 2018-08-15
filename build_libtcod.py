@@ -5,7 +5,6 @@ import sys
 
 import glob
 
-import numpy
 from cffi import FFI
 from pycparser import c_parser, c_ast, parse_file, c_generator
 
@@ -18,7 +17,8 @@ except ImportError:
     from urllib.request import urlretrieve
 import zipfile
 
-SDL2_VERSION = os.environ.get('SDL_VERSION', '2.0.7')
+SDL2_VERSION = os.environ.get('SDL_VERSION', '2.0.8')
+TDL_NO_SDL2_EXPORTS = os.environ.get('TDL_NO_SDL2_EXPORTS', '0') == '1'
 
 CFFI_HEADER = 'tcod/cffi.h'
 CFFI_EXTRA_CDEFS = 'tcod/cdef.h'
@@ -28,9 +28,8 @@ BITSIZE, LINKAGE = platform.architecture()
 def walk_sources(directory):
     for path, dirs, files in os.walk(directory):
         for source in files:
-            if not source.endswith('.c'):
-                continue
-            yield os.path.join(path, source)
+            if source.endswith('.c') or source.endswith('.cpp'):
+                yield os.path.join(path, source)
 
 def find_sources(directory):
     return [os.path.join(directory, source)
@@ -77,8 +76,6 @@ include_dirs = [
     'libtcod/include/',
     'libtcod/src/png/',
     'libtcod/src/zlib/',
-    '/usr/include/SDL2/',
-    numpy.get_include(),
 ]
 
 extra_parse_args = []
@@ -96,6 +93,8 @@ sources += ['libtcod/src/libtcod_c.c']
 sources += ['libtcod/src/png/lodepng.c']
 sources += glob.glob('libtcod/src/zlib/*.c')
 
+if TDL_NO_SDL2_EXPORTS:
+    extra_parse_args.append('-DTDL_NO_SDL2_EXPORTS')
 
 if sys.platform == 'win32':
     libraries += ['User32', 'OpenGL32']
@@ -230,7 +229,6 @@ def get_ast():
 
     ast = parse_file(filename=CFFI_HEADER, use_cpp=True,
                      cpp_args=[r'-Idependencies/fake_libc_include',
-                               r'-Ilibtcod/include',
                                r'-DDECLSPEC=',
                                r'-DSDLCALL=',
                                r'-DTCODLIB_API=',

@@ -382,15 +382,6 @@ def _processEvents():
         else:
             keyevent = KeyUp
 
-        if libkey.vk == _lib.TCODK_TEXT:
-            # Hack 2017-03-22 HexDecimal
-            # Fix undefined libtcod behaviour which breaks 32-bit builds.
-            libkey.c = b'\x00'
-            libkey.shift = False
-            libkey.lalt = libkey.ralt = False
-            libkey.lctrl = libkey.rctrl = False
-            libkey.lmeta = libkey.rmeta = False
-
         events.append(
             keyevent(
                 libkey.vk,
@@ -432,7 +423,6 @@ def _event_generator():
         # this means you can break out of a event.get loop without losing
         # the leftover events
         yield(_eventQueue.pop(0))
-    raise StopIteration()
 
 
 def wait(timeout=None, flush=True):

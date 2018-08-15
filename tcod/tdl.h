@@ -1,7 +1,7 @@
-#ifndef _TCOD_C_CODE_TDL_H_
-#define _TCOD_C_CODE_TDL_H_
+#ifndef PYTHON_TCOD_TDL_H_
+#define PYTHON_TCOD_TDL_H_
 
-#include <libtcod.h>
+#include "../libtcod/include/libtcod.h"
 
 /* TDL FUNCTONS ----------------------------------------------------------- */
 
@@ -52,4 +52,4 @@ void TDL_console_set_bg(TCOD_console_t console, int x, int y, int color,
                         TCOD_bkgnd_flag_t flag);
 void TDL_console_set_fg(TCOD_console_t console, int x, int y, int color);
 
-#endif
+#endif /* PYTHON_TCOD_TDL_H_ */

@@ -1,5 +1,9 @@
-from PyInstaller.utils.hooks import collect_data_files, collect_dynamic_libs
-hiddenimports = ['cffi']
-datas = collect_data_files('tdl') # packages the 'default' font
-# install all binaries to the working directory
-binaries = [(lib, '') for lib, _ in collect_dynamic_libs('tcod')]
+"""
+    Hook for https://github.com/libtcod/python-tcod
+
+    You should skip this hook if you're using a custom font.
+"""
+from PyInstaller.utils.hooks import collect_data_files
+
+# Package tdl's 'default' font file.
+datas = collect_data_files('tdl')
